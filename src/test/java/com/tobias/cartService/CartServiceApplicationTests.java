@@ -1,10 +1,10 @@
-package com.tobias.basketservice;
+package com.tobias.cartService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BasketServiceApplicationTests {
+class CartServiceApplicationTests {
 
     @Test
     void contextLoads() {
