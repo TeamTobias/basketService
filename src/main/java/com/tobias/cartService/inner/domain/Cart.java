@@ -19,15 +19,12 @@ public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int cartId;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="user_id")
-    private User user; // 구매자
-
+    private int userId;
     private int count; // 카트에 담긴 총 상품 개수
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cartItems")
     private List<CartItem> cartItems = new ArrayList<>();
 
 //    @DateTimeFormat(pattern = "yyyy-mm-dd")
@@ -38,10 +35,10 @@ public class Cart {
 //        this.createDate = LocalDate.now();
 //    }
 
-    public static Cart createCart(User user) {
+    public static Cart createCart(int userId) {
         Cart cart = new Cart();
         cart.setCount(0);
-        cart.setUser(user);
+        cart.setUserId(userId);
         return cart;
     }
 

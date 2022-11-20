@@ -1,6 +1,5 @@
 package com.tobias.cartService.outer.dto;
 
-import com.tobias.cartService.inner.domain.Item;
 import lombok.Data;
 
 import java.util.List;

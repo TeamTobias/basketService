@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.coyote.Request;
 
 import javax.persistence.*;
 
@@ -19,20 +20,19 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="cart_id")
-    private Cart cart;
+    private int cartId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="item_id")
-    private Item item;
+    private int itemId;
+
+    private String itemName;
 
     private int count;
 
-    public static CartItem createCartItem(Cart cart, Item item, int amount) {
+    public static CartItem createCartItem(int cartId, RequestItem item, int amount) {
         CartItem cartItem = new CartItem();
-        cartItem.setCart(cart);
-        cartItem.setItem(item);
+        cartItem.setCartId(cartId);
+        cartItem.setItemId(item.getItemId());
+        cartItem.setItemName(item.getItemName());
         cartItem.setCount(amount);
         return cartItem;
     }
