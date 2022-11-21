@@ -17,10 +17,8 @@ public class CartServiceImpl implements CartService {
     CartRepository cartRepository;
     CartItemRepository cartItemRepository;
 
-
     @Transactional
     public void addCart(int userId, RequestItem item, int amount) {
-
         // 유저 id로 해당 유저의 장바구니 찾기
         Cart cart = cartRepository.findByUserId(userId);
 
@@ -43,15 +41,13 @@ public class CartServiceImpl implements CartService {
             CartItem update = cartItem;
             update.setCartId(cartItem.getCartId());
             update.setItemId(cartItem.getItemId());
-            update.setItemName(cartItem.getItemName());
+            update.setName(cartItem.getName());
             update.addCount(amount);
             update.setCount(update.getCount());
             cartItemRepository.save(update);
         }
-
         // 카트 상품 총 개수 증가
         cart.setCount(cart.getCount()+amount);
-
     }
 
     @Override
@@ -65,12 +61,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartItem getCartItemByItem(int itemId) {
-        return cartItemRepository.findByItemId(itemId);
-    }
-
-    @Override
-    public void deleteCartItemByItem(int itemId) {
-        cartItemRepository.deleteByItemId(itemId);
+    public void deleteCartItemById(int id) {
+        cartItemRepository.deleteById(id);
     }
 }

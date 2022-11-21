@@ -10,6 +10,6 @@ public interface CartService {
     Cart getCartByUserId(int userId);
 
     Iterable<CartItem> getCartItemsByCart(Cart userCart);
-    CartItem getCartItemByItem(int itemId);
-    void deleteCartItemByItem(int itemId);
+    void deleteCartItemById(int itemId);
 }
+
