@@ -14,5 +14,5 @@ public class CartDTO {
     private int money;
     private int amount;
 
-    private List<Item> products;
+//    private List<Item> products;
 }
