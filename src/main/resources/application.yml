@@ -26,3 +26,5 @@ spring:
         web-allow-others: true
 
 
+greeting:
+  message: Hello from the Basket Service - LOCAL
