@@ -15,6 +15,11 @@ public class CartController {
     private final Environment env;
     private final CartService cartService;
 
+    @GetMapping("/health_check")
+    public String status() {
+        return env.getProperty("greeting.message");
+    }
+
     @PostMapping("/myBasket/v1/{userId}/{itemId}")
     public String addCartItem(@PathVariable("userId") int userId, @RequestBody RequestItem item, int amount) {
         cartService.addCart(userId, item, amount);
@@ -43,8 +48,8 @@ public class CartController {
     }
 
     @DeleteMapping("/myBasket/v1/{cartItemId}")
-    public String deleteCartItem(@PathVariable("cartItemId") int cartItemId) {
+    public HttpStatus deleteCartItem(@PathVariable("cartItemId") int cartItemId) {
         cartService.deleteCartItemById(cartItemId);
-        return "cartItem deleted";
+        return HttpStatus.OK;
     }
 }
