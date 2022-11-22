@@ -15,8 +15,8 @@ public class CartController {
     private final Environment env;
     private final CartService cartService;
 
-    @GetMapping("/welcome")
-    public String welcome(){
+    @GetMapping("/health_check")
+    public String status() {
         return env.getProperty("greeting.message");
     }
 
@@ -48,8 +48,8 @@ public class CartController {
     }
 
     @DeleteMapping("/myBasket/v1/{cartItemId}")
-    public String deleteCartItem(@PathVariable("cartItemId") int cartItemId) {
+    public HttpStatus deleteCartItem(@PathVariable("cartItemId") int cartItemId) {
         cartService.deleteCartItemById(cartItemId);
-        return "cartItem deleted";
+        return HttpStatus.OK;
     }
 }
