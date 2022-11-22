@@ -29,7 +29,7 @@ public class CartItem {
     public static CartItem createCartItem(int cartId, RequestItem item, int amount) {
         CartItem cartItem = new CartItem();
         cartItem.setCartId(cartId);
-        cartItem.setItemId(item.getItemId());
+        cartItem.setItemId(item.getId());
         cartItem.setName(item.getName());
         cartItem.setPrice(item.getPrice());
         cartItem.setColor(item.getColor());

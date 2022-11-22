@@ -28,10 +28,10 @@ public class CartServiceImpl implements CartService {
             cartRepository.save(cart);
         }
 
-        CartItem cartItem = cartItemRepository.findByCartIdAndItemId(cart.getCartId(), item.getItemId());
+        CartItem cartItem = cartItemRepository.findByCartIdAndItemId(cart.getCartId(), item.getId());
 
-        // 상품이 장바구니에 존재하지 않는다면 카트상품 생성 후 추가
-        if (cartItem == null) {
+        // 상품이 장바구니에 존재하지 않거나 같더라도 색상, 사이즈가 다르다면 카트상품 생성 후 추가
+        if (cartItem == null || cartItem.getColor() != item.getColor() || cartItem.getSize() != item.getSize()) {
             cartItem = CartItem.createCartItem(cart.getCartId(), item, amount);
             cartItemRepository.save(cartItem);
         }
