@@ -3,10 +3,14 @@ package com.tobias.cartService.outer.rest.web;
 import com.tobias.cartService.inner.domain.*;
 import com.tobias.cartService.inner.service.CartService;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -20,10 +24,19 @@ public class CartController {
         return env.getProperty("greeting.message");
     }
 
-    @PostMapping("/myBasket/v1/{userId}/{itemId}")
-    public String addCartItem(@PathVariable("userId") int userId, @RequestBody RequestItem item, int amount) {
-        cartService.addCart(userId, item, amount);
+    @PostMapping("/myBasket/v1/{userId}")
+    public String addCartItem(@PathVariable("userId") int userId, @RequestBody RequestItem item) {
+        cartService.addCart(userId, item, 1);
         return "cartItem Added";
+    }
+
+    @GetMapping("/myBasket/v1/allcarts")
+    public ResponseEntity<List<ResponseCart>> allUserCart() {
+        Iterable<Cart> carts = cartService.getCartsAll();
+
+        List<ResponseCart> result = new ArrayList<>();
+        carts.forEach(v -> result.add(new ModelMapper().map(v, ResponseCart.class)));
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     // 장바구니 페이지 접속
@@ -39,7 +52,7 @@ public class CartController {
             totalPrice += cartitem.getCount() * cartitem.getPrice();
         }
         ResponseCart responseCart = new ResponseCart();
-        responseCart.setCartId(cart.getCartId());
+        responseCart.setCartId(cart.getId());
         responseCart.setUserId(cart.getUserId());
         responseCart.setCount(cart.getCount());
         responseCart.setTotalPrice(totalPrice);

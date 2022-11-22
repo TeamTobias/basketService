@@ -14,12 +14,17 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
 
-    CartRepository cartRepository;
-    CartItemRepository cartItemRepository;
+    private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
+
+    public Iterable<Cart> getCartsAll(){
+        return cartRepository.findAll();
+    }
 
     @Transactional
     public void addCart(int userId, RequestItem item, int amount) {
         // 유저 id로 해당 유저의 장바구니 찾기
+
         Cart cart = cartRepository.findByUserId(userId);
 
         // 장바구니가 존재하지 않는다면
@@ -28,11 +33,11 @@ public class CartServiceImpl implements CartService {
             cartRepository.save(cart);
         }
 
-        CartItem cartItem = cartItemRepository.findByCartIdAndItemId(cart.getCartId(), item.getId());
+        CartItem cartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
 
         // 상품이 장바구니에 존재하지 않거나 같더라도 색상, 사이즈가 다르다면 카트상품 생성 후 추가
         if (cartItem == null || cartItem.getColor() != item.getColor() || cartItem.getSize() != item.getSize()) {
-            cartItem = CartItem.createCartItem(cart.getCartId(), item, amount);
+            cartItem = CartItem.createCartItem(cart.getId(), item, amount);
             cartItemRepository.save(cartItem);
         }
 
@@ -43,11 +48,11 @@ public class CartServiceImpl implements CartService {
             update.setItemId(cartItem.getItemId());
             update.setName(cartItem.getName());
             update.addCount(amount);
-            update.setCount(update.getCount());
+            update.setCount(update.getCount()+1);
             cartItemRepository.save(update);
         }
         // 카트 상품 총 개수 증가
-        cart.setCount(cart.getCount()+amount);
+        cart.setCount(cart.getCount()+1);
     }
 
     @Override
@@ -57,7 +62,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Iterable<CartItem> getCartItemsByCart(Cart userCart) {
-        return cartItemRepository.findByCartId(userCart.getCartId());
+        return cartItemRepository.findByCartId(userCart.getId());
     }
 
     @Override
