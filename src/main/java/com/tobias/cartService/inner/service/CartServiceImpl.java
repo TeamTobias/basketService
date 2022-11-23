@@ -47,12 +47,16 @@ public class CartServiceImpl implements CartService {
             update.setCartId(cartItem.getCartId());
             update.setItemId(cartItem.getItemId());
             update.setName(cartItem.getName());
-            update.addCount(amount);
-            update.setCount(update.getCount()+1);
+            update.setCount(cartItem.getCount()+1);
             cartItemRepository.save(update);
         }
         // 카트 상품 총 개수 증가
         cart.setCount(cart.getCount()+1);
+    }
+
+    @Override
+    public CartItem getCartItemById(int id) {
+        return cartItemRepository.findById(id);
     }
 
     @Override
@@ -65,8 +69,13 @@ public class CartServiceImpl implements CartService {
         return cartItemRepository.findByCartId(userCart.getId());
     }
 
+    @Transactional
     @Override
     public void deleteCartItemById(int id) {
+        CartItem cartItem = cartItemRepository.findById(id);
+        Cart cart = cartRepository.findById(cartItem.getCartId());
+        cart.setCount(cart.getCount()- cartItem.getCount());
+        cartRepository.save(cart);
         cartItemRepository.deleteById(id);
     }
 }

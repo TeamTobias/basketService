@@ -5,12 +5,12 @@ import com.tobias.cartService.inner.domain.CartItem;
 import com.tobias.cartService.inner.domain.RequestItem;
 
 public interface CartService {
-    public Iterable<Cart> getCartsAll();
+    Iterable<Cart> getCartsAll();
 
-    public void addCart(int userId, RequestItem item, int amount);
+    void addCart(int userId, RequestItem item, int amount);
 
     Cart getCartByUserId(int userId);
-
+    CartItem getCartItemById(int id);
     Iterable<CartItem> getCartItemsByCart(Cart userCart);
     void deleteCartItemById(int itemId);
 }
