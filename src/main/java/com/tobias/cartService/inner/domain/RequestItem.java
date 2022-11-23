@@ -11,4 +11,5 @@ public class RequestItem {
     private int price;
     private String size;
     private String color;
+    private UUID thumbnailUUID;
 }
