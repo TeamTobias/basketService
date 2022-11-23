@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,25 +34,38 @@ public class CartServiceImpl implements CartService {
             cartRepository.save(cart);
         }
 
-        CartItem cartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
+        List<CartItem> cartItems = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
 
-        // 상품이 장바구니에 존재하지 않거나 같더라도 색상, 사이즈가 다르다면 카트상품 생성 후 추가
-        if (cartItem == null || !cartItem.getColor().equals(item.getColor()) || !cartItem.getSize().equals(item.getSize())) {
-            cartItem = CartItem.createCartItem(cart.getId(), item, amount);
+        for(CartItem cartItem : cartItems) {
+                // 상품이 장바구니에 존재하지 않거나 같더라도 색상, 사이즈가 다르다면 카트상품 생성 후 추가
+
+            if (!cartItem.getColor().equals(item.getColor()) || !cartItem.getSize().equals(item.getSize())){
+                //cartItem이 cartItems의 마지막 요소일 때
+               if(cartItem == cartItems.get(cartItems.size() - 1)) {
+                    cartItem = CartItem.createCartItem(cart.getId(), item, amount);
+                    cartItemRepository.save(cartItem);
+                }
+            }
+
+            // 상품이 장바구니에 이미 존재한다면 수량만 증가
+            else {
+                CartItem update = cartItem;
+                update.setCartId(cartItem.getCartId());
+                update.setItemId(cartItem.getItemId());
+                update.setName(cartItem.getName());
+                update.setCount(cartItem.getCount() + 1);
+                cartItemRepository.save(update);
+                break;
+            }
+        }
+
+        if (cartItems.isEmpty()) {
+            CartItem cartItem = CartItem.createCartItem(cart.getId(), item, amount);
             cartItemRepository.save(cartItem);
         }
+            // 카트 상품 총 개수 증가
+        cart.setCount(cart.getCount() + 1);
 
-        // 상품이 장바구니에 이미 존재한다면 수량만 증가
-        else {
-            CartItem update = cartItem;
-            update.setCartId(cartItem.getCartId());
-            update.setItemId(cartItem.getItemId());
-            update.setName(cartItem.getName());
-            update.setCount(cartItem.getCount()+1);
-            cartItemRepository.save(update);
-        }
-        // 카트 상품 총 개수 증가
-        cart.setCount(cart.getCount()+1);
     }
 
     @Override
