@@ -12,6 +12,8 @@ public interface CartService {
     Cart getCartByUserId(int userId);
     CartItem getCartItemById(int id);
     Iterable<CartItem> getCartItemsByCart(Cart userCart);
+
+    void deleteOneCartItemById(int id);
     void deleteCartItemById(int itemId);
 }
 

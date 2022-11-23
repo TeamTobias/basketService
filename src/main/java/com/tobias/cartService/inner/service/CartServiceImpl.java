@@ -71,6 +71,20 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
+    public void deleteOneCartItemById(int id) {
+        CartItem cartItem = cartItemRepository.findById(id);
+        Cart cart = cartRepository.findById(cartItem.getCartId());
+        cart.setCount(cart.getCount()- 1);
+        cartRepository.save(cart);
+        cartItem.setCount(cartItem.getCount()-1);
+        if(cartItem.getCount()==0)
+            cartItemRepository.deleteById(id);
+        else
+            cartItemRepository.save(cartItem);
+    }
+
+    @Transactional
+    @Override
     public void deleteCartItemById(int id) {
         CartItem cartItem = cartItemRepository.findById(id);
         Cart cart = cartRepository.findById(cartItem.getCartId());
