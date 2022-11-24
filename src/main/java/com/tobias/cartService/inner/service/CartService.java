@@ -13,7 +13,7 @@ public interface CartService {
     CartItem getCartItemById(int id);
     Iterable<CartItem> getCartItemsByCart(Cart userCart);
 
-    void deleteOneCartItemById(int id);
+    void modifyCartItemCount(int id, int amount);
     void deleteCartItemById(int itemId);
 }
 

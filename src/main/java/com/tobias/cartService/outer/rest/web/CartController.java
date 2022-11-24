@@ -60,9 +60,9 @@ public class CartController {
         return ResponseEntity.status(HttpStatus.OK).body(responseCart);
     }
 
-    @DeleteMapping("/myBasket/v1/{cartItemId}/one")
-    public HttpStatus deleteOneCartItem(@PathVariable("cartItemId") int cartItemId) {
-        cartService.deleteOneCartItemById(cartItemId);
+    @DeleteMapping("/myBasket/v1/{cartItemId}/{amount}")
+    public HttpStatus deleteOneCartItem(@PathVariable("cartItemId") int cartItemId,@PathVariable("amount") int amount) {
+        cartService.modifyCartItemCount(cartItemId, amount);
         return HttpStatus.OK;
     }
 
