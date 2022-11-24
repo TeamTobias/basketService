@@ -19,7 +19,7 @@ public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int cartId;
+    private int id;
 
     private int userId;
     private int count; // 카트에 담긴 총 상품 개수
