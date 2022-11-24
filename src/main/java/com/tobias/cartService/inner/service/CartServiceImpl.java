@@ -85,16 +85,20 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void deleteOneCartItemById(int id) {
+    public void modifyCartItemCount(int id,int amount) {
         CartItem cartItem = cartItemRepository.findById(id);
-        Cart cart = cartRepository.findById(cartItem.getCartId());
-        cart.setCount(cart.getCount()- 1);
-        cartRepository.save(cart);
-        cartItem.setCount(cartItem.getCount()-1);
-        if(cartItem.getCount()==0)
-            cartItemRepository.deleteById(id);
-        else
-            cartItemRepository.save(cartItem);
+        if(cartItem!=null) {
+            Cart cart = cartRepository.findById(cartItem.getCartId());
+            int previousCount = cartItem.getCount();
+            cartItem.setCount(amount);
+            int currentCount = amount;
+            cart.setCount(cart.getCount() + (currentCount - previousCount));
+            cartRepository.save(cart);
+            if (cartItem.getCount() == 0)
+                cartItemRepository.deleteById(id);
+            else
+                cartItemRepository.save(cartItem);
+        }
     }
 
     @Transactional
