@@ -25,7 +25,7 @@ public class CartItem {
     private int price;
     private String color;
     private String size;
-    private UUID thumbnailUUID;
+    private UUID imgUUID;
     private int count;
 
     public static CartItem createCartItem(int cartId, RequestItem item, int amount) {
@@ -36,7 +36,7 @@ public class CartItem {
         cartItem.setPrice(item.getPrice());
         cartItem.setColor(item.getColor());
         cartItem.setSize(item.getSize());
-        cartItem.setThumbnailUUID(item.getThumbnailUUID());
+        cartItem.setImgUUID(item.getThumbnailUUID());
         cartItem.setCount(amount);
         return cartItem;
     }
