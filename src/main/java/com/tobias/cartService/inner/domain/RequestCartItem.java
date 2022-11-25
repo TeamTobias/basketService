@@ -5,11 +5,11 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class RequestItem {
+public class RequestCartItem {
     private int id;
     private String name;
     private int price;
     private String size;
     private String color;
-    private UUID thumbnailUUID;
+    private UUID imgUUID;
 }

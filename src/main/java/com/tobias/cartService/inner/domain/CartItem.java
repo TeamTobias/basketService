@@ -28,7 +28,7 @@ public class CartItem {
     private UUID imgUUID;
     private int count;
 
-    public static CartItem createCartItem(int cartId, RequestItem item, int amount) {
+    public static CartItem createCartItem(int cartId, RequestCartItem item, int amount) {
         CartItem cartItem = new CartItem();
         cartItem.setCartId(cartId);
         cartItem.setItemId(item.getId());
@@ -36,7 +36,7 @@ public class CartItem {
         cartItem.setPrice(item.getPrice());
         cartItem.setColor(item.getColor());
         cartItem.setSize(item.getSize());
-        cartItem.setImgUUID(item.getThumbnailUUID());
+        cartItem.setImgUUID(item.getImgUUID());
         cartItem.setCount(amount);
         return cartItem;
     }
