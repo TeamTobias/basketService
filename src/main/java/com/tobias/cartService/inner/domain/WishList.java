@@ -18,4 +18,11 @@ public class WishList {
     private int count;
     @OneToMany
     private List<WishItem> wishItems = new ArrayList<>();
+
+    public static WishList createWishList(int userId) {
+        WishList wishList = new WishList();
+        wishList.setUserId(userId);
+        wishList.setCount(0);
+        return wishList;
+    }
 }

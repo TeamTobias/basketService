@@ -19,4 +19,13 @@ public class WishItem {
     private int price;
     private UUID imgUUID;
 
+    public static WishItem createWishItem(int wishListId, RequestWishItem item) {
+        WishItem wishItem = new WishItem();
+        wishItem.setWishListId(wishListId);
+        wishItem.setItemId(item.getId());
+        wishItem.setName(item.getName());
+        wishItem.setPrice(item.getPrice());
+        wishItem.setImgUUID(item.getImgUUID());
+        return wishItem;
+    }
 }
