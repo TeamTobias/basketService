@@ -2,7 +2,7 @@ package com.tobias.cartService.inner.service;
 
 import com.tobias.cartService.inner.domain.Cart;
 import com.tobias.cartService.inner.domain.CartItem;
-import com.tobias.cartService.inner.domain.RequestItem;
+import com.tobias.cartService.inner.domain.RequestCartItem;
 import com.tobias.cartService.inner.repository.CartItemRepository;
 import com.tobias.cartService.inner.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Transactional
-    public void addCart(int userId, RequestItem item, int amount) {
+    public void addCart(int userId, RequestCartItem item, int amount) {
         // 유저 id로 해당 유저의 장바구니 찾기
 
         Cart cart = cartRepository.findByUserId(userId);

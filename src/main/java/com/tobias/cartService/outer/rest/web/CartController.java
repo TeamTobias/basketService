@@ -25,7 +25,7 @@ public class CartController {
     }
 
     @PostMapping("/myBasket/v1/{userId}")
-    public HttpStatus addCartItem(@PathVariable("userId") int userId, @RequestBody RequestItem item) {
+    public HttpStatus addCartItem(@PathVariable("userId") int userId, @RequestBody RequestCartItem item) {
         cartService.addCart(userId, item, 1);
         return HttpStatus.OK;
     }
