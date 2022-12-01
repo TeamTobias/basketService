@@ -26,13 +26,7 @@ jobs:
         java-version: 1.8
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
     - name: Run Test
       run: ./gradlew test
-    - name: Run Integration Test
-      run: ./gradlew integrationTest
-    - name: Run Test Coverage
-      run: ./gradlew jacocoTestReport
-    - name: Run SonarQube Analysis
-      run: ./gradlew sonarqube -Dsonar.projectKey=Jenkins-Test-Repo_Basket-Service -Dsonar.organization=jenkins
+    - name: Build with Gradle
+      run: ./gradlew build
