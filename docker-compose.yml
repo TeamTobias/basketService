@@ -1,0 +1,72 @@
+version: '3.8'
+
+
+services:
+
+  app:
+    image: imkunyoung/discoveryservice
+    container_name: discoveryservice
+    ports:
+      - 8761:8761
+    volumes:
+      - /app
+    networks:
+      - basket-network
+
+  app2:
+    image: imkunyoung/gatewayservice_client:1.0
+    container_name: gatewayservice_client
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discoveryservice:8761/eureka/
+    ports:
+      - 8000:8000
+      - 80:80
+    volumes:
+      - /app2
+    networks:
+      - basket-network
+
+
+  basket-mysql:
+    image: mysql:latest
+    container_name: basket-mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=basketservice
+      - MYSQL_USER=basketservice
+      - MYSQL_PASSWORD=1234
+    #    ports:
+    #      - 3306:3306
+    volumes:
+      - ~/docker/mysql/var/lib/mysql:/var/lib/mysql
+      - ~/docker/mysql/var/log/mysql:/var/log/mysql
+    networks:
+      - basket-network
+
+  app9:
+    image: basketservice
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: basketservice
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discoveryservice:8761/eureka/
+      - spring.cloud.config.uri=http://configservice:8888
+      - spring.profiles.active=prod
+      - spring.datasource.url=jdbc:mysql://basket-mysql:3306/basketservice?serverTimezone=UTC&characterEncoding=UTF-8&useSSL=false
+      - spring.datasource.username=basketservice
+      - spring.datasource.password=1234
+    depends_on:
+      - basket-mysql
+    volumes:
+      - /app9
+    networks:
+      - basket-network
+
+
+
+networks:
+  basket-network:
+    driver: bridge
