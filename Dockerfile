@@ -1,5 +1,5 @@
 # java spring-boot
-FROM adoptopenjdk/openjdk11
-ADD build/libs/basketService-0.0.1-SNAPSHOT.jar basketService.jar
-EXPOSE 8005
-ENTRYPOINT ["java","-jar","basketService.jar"]
+FROM openjdk:17-ea-11-jdk-slim
+VOLUME /tmp
+COPY build/libs/basketService-1.0.jar basketservice.jar
+ENTRYPOINT ["java","-jar","basketservice.jar"]
