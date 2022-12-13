@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class CartController {
 
     private final Environment env;

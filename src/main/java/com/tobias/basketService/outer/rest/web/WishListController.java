@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class WishListController {
     private final WishListService wishListService;
 
