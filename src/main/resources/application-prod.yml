@@ -29,6 +29,11 @@ spring:
 greeting:
   message: this is prod application.yml
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 # test message
 test.message: "this is a test message: i'm basketService-prod.yml"
